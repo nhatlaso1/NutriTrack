@@ -14,7 +14,7 @@ app.use(express.json()); // Parse JSON request bodies
 
 // Routes
 app.get('/', (req, res) => {
-  res.send('Welcome to the BMI Tracker');
+  res.send('Welcome to the Nutri_Tracking_Capstone');
 });
 
 app.use(allRouter);
