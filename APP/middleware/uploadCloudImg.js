@@ -15,7 +15,7 @@ const storage = new CloudinaryStorage({
   cloudinary,
   allowedFormats: ['jpg', 'png'],
   params: {
-    folder: 'bmi-tracker-images-storage',
+    folder: 'nutri-track-images-storage',
   },
 });
 const uploadCloud = multer({ storage });
