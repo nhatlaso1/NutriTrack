@@ -8,9 +8,3 @@ export async function loginAdmin(email, password) {
   const getUserDetails = await pool.query(getUserDetailsQuery);
   return getUserDetails.rows;
 }
-
-export async function sendMailVerifyForResetPassword(email) {
-  const getUserDetailsQuery = userSQL.getUserDetailsByUserEmail(email);
-  const getUserDetails = await pool.query(getUserDetailsQuery);
-  return getUserDetails.rows;
-}

@@ -15,14 +15,6 @@ export async function getMenuFeedBacks() {
   return result.rows;
 }
 
-export async function getTrainerFeedBacks() {
-  const getMenuFeedBackList = feedBackSQL.getTrainerFeedBacks();
-  const result = await pool.query(getMenuFeedBackList);
-  return result.rows;
-}
-
-//
-
 export async function getFoodFeedBackByFoodId(foodId) {
   const getFoodFeedBackByFoodIdQuery =
     feedBackSQL.getFoodFeedBackByFoodId(foodId);
@@ -34,12 +26,6 @@ export async function getFoodFeedBackByFoodId(foodId) {
 
 export async function getMenuFeedBackByMenuId(menuId) {
   const getMenuFeedBackList = feedBackSQL.getMenuFeedBackByMenuId(menuId);
-  const result = await pool.query(getMenuFeedBackList);
-  return result.rows;
-}
-
-export async function getTrainerFeedBackByMenuId(trainerId) {
-  const getMenuFeedBackList = feedBackSQL.getTrainerFeedBackByMenuId(trainerId);
   const result = await pool.query(getMenuFeedBackList);
   return result.rows;
 }

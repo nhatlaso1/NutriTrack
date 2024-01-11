@@ -13,12 +13,6 @@ export async function getUserDetailsByEmail(userId) {
   const getUserDetails = await pool.query(getUserDetailsQuery);
   return getUserDetails.rows;
 }
-export async function getTrainerDetails(trainerId) {
-  const getUserDetailsQuery = userSQL.getTrainerDetails(trainerId);
-  const getUserDetails = await pool.query(getUserDetailsQuery);
-  return getUserDetails.rows;
-}
-
 export async function getUserDetailsByLogin(email, password) {
   const getUserDetailsQuery = userSQL.getUserDetailsByLogin(email, password);
   const getUserDetails = await pool.query(getUserDetailsQuery);
@@ -48,17 +42,6 @@ export async function createMenuFeedback(menuId, feedBackDetails, client) {
   );
   await client.query(getUserDetailsQuery);
 }
-export async function createTrainerFeedback(
-  trainerId,
-  feedBackDetails,
-  client,
-) {
-  const getUserDetailsQuery = userSQL.createTrainerFeedback(
-    trainerId,
-    feedBackDetails,
-  );
-  await client.query(getUserDetailsQuery);
-}
 export async function createUserInfo(userDetails, client) {
   const createUserInfoQuery = userSQL.createUserInfo(userDetails);
   await client.query(createUserInfoQuery);
@@ -76,4 +59,9 @@ export async function getUserInfoById(userId) {
 export async function updateUserInfo(userDetails, client) {
   const updateUserInfoQuery = userSQL.updateUserInfo(userDetails);
   await client.query(updateUserInfoQuery);
+}
+
+export async function getRoleUserForRegister(client) {
+  const getRoleUser = userSQL.getRoleUserForRegister();
+  return await client.query(getRoleUser);
 }

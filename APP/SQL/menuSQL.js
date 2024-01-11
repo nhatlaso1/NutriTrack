@@ -60,7 +60,6 @@ export function getMenuFoodDetails(menuId) {
     text: text,
     values: values,
   };
-  console.log(query);
   return query;
 }
 export function createMenu(menuDetails) {

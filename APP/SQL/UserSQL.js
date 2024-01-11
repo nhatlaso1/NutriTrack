@@ -2,8 +2,22 @@
 
 export function getAdminDetails(email, password) {
   const text = `
-   SELECT * FROM users INNER JOIN user_role ON users.role_id = user_role.role_id WHERE user_role.role_name = 'ADMIN' AND email = $1 AND password = $2`;
+   SELECT * FROM users INNER JOIN role ON users.role_id = role.role_id WHERE role.role_name = 'ADMIN' AND email = $1 AND password = $2`;
   const values = [email, password];
+  const query = {
+    text: text,
+    values: values,
+  };
+  console.log(query);
+  return query;
+}
+
+export function getRoleUserForRegister() {
+  const text = `
+    SELECT *
+    FROM public.role
+    WHERE role_name = 'USER'`;
+  const values = [];
   const query = {
     text: text,
     values: values,
@@ -15,7 +29,7 @@ export function getUserDetailsByUserId(userId) {
   const text = `
     SELECT *
     FROM public.users u
-    INNER JOIN user_role ur
+    INNER JOIN role ur
         ON ur.role_id = u.role_id
     WHERE u.user_id = $1`;
   const values = [userId];
@@ -30,7 +44,7 @@ export function getUserDetailsByUserEmail(email) {
   const text = `
     SELECT *
     FROM public.users u
-    INNER JOIN user_role ur
+    INNER JOIN role ur
         ON ur.role_id = u.role_id
     WHERE u.email = $1
         AND ur.role_name != 'ADMIN'`;
@@ -46,7 +60,7 @@ export function getUserDetailsByLogin(email, password) {
   const text = `
     SELECT *
     FROM public.users u
-    INNER JOIN user_role ur
+    INNER JOIN role ur
         ON ur.role_id = u.role_id
     WHERE u.email = $1
         AND u.password = $2
@@ -62,8 +76,8 @@ export function getUserDetailsByLogin(email, password) {
 export function registerUserDetails(userDetails) {
   const text = `
   INSERT INTO public.users(
-	  user_id, user_full_name, user_photo, email, password, sex, birthday, phone_number, status)
-	VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`;
+	  user_id, user_full_name, user_photo, email, password, sex, birthday, phone_number, status,role_id)
+	VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9,$10)`;
   const values = [
     userDetails.user_id,
     userDetails.user_full_name,
@@ -74,6 +88,7 @@ export function registerUserDetails(userDetails) {
     userDetails.birth_day,
     userDetails.phone_number,
     userDetails.status,
+    userDetails.role_id,
   ];
   const query = {
     text: text,
@@ -84,7 +99,7 @@ export function registerUserDetails(userDetails) {
 
 export function getAdminDetailsByUserId(email) {
   const text = `
-    SELECT * FROM users INNER JOIN user_role ON users.role_id = user_role.role_id WHERE user_role.role_name = 'ADMIN' AND email = $1`;
+    SELECT * FROM users INNER JOIN role ON users.role_id = role.role_id WHERE role.role_name = 'ADMIN' AND email = $1`;
   const values = [email];
   const query = {
     text: text,
@@ -97,7 +112,7 @@ export function getUserList() {
   const text = `
     SELECT *
     FROM public.users u
-    INNER JOIN user_role ur
+    INNER JOIN role ur
       ON ur.role_id = u.role_id
     WHERE ur.role_name != 'ADMIN'`;
   const values = [];
@@ -136,7 +151,7 @@ export function deleteUser(userId) {
 export function getRoleDetailsByRoleName(roleName) {
   const text = `
   SELECT *
-	FROM public.user_role
+	FROM public.role
   WHERE role_name = $1`;
   const values = [roleName];
   const query = {
@@ -163,7 +178,7 @@ export function updateUserRole(userId, roleId) {
 export function updateUserByUserDetails(userId, userDetails) {
   const text = `
   UPDATE public."users"
-	SET user_full_name=$2, user_photo=$3, sex=$4, birthday=$5, phone_number=$6, status=$7,certificate_id=$8,certificate_name=$9, certificate_file_link=$10
+	SET user_full_name=$2, user_photo=$3, sex=$4, birthday=$5, phone_number=$6, status=$7
 	WHERE user_id = $1;`;
 
   const values = [
@@ -174,9 +189,6 @@ export function updateUserByUserDetails(userId, userDetails) {
     userDetails.birth_day,
     userDetails.phone_number,
     userDetails.status,
-    userDetails.certificate_id,
-    userDetails.certificate_name,
-    userDetails.certificate_file_link,
   ];
   const query = {
     text: text,
@@ -290,42 +302,6 @@ export function createMenuFeedback(menuId, feedBackDetails) {
     feedBackDetails.favorite_menu_id,
     feedBackDetails.menu_id,
   ];
-  const query = {
-    text: text,
-    values: values,
-  };
-  console.log();
-  return query;
-}
-
-export function createTrainerFeedback(trainerId, feedBackDetails) {
-  const text = `
- INSERT INTO public.feedback(
-	feedback_id, user_id, message)
-	VALUES ($1, $2, $3);
-
-  INSERT INTO public.trainer_feedback(
-	trainer_feedback_id, feedback_id, trainer_id)
-	VALUES ($4, $1, $5);`;
-
-  const values = [
-    feedBackDetails.feedback_id,
-    feedBackDetails.user_id,
-    feedBackDetails.message,
-    feedBackDetails.trainer_feedback_id,
-    feedBackDetails.trainer_id,
-  ];
-  const query = {
-    text: text,
-    values: values,
-  };
-  return query;
-}
-export function getTrainerDetails(trainerId) {
-  const text = `
-  SELECT *
-  FROM users u INNER JOIN user_role ur ON u.role_id = ur.role_id WHERE u.user_id = $1 AND ur.role_name = 'TRAINER'`;
-  const values = [trainerId];
   const query = {
     text: text,
     values: values,

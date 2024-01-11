@@ -38,10 +38,6 @@ router.post(
   '/api/user/menu/feed-back/:menuId',
   userController.createMenuFeedback,
 );
-router.post(
-  '/api/user/trainer/feed-back/:trainerId',
-  userController.createTrainerFeedback,
-);
 
 // ingredient
 router.get('/api/ingredient', ingredientController.getIngredientList);
@@ -91,7 +87,6 @@ router.put(
 // feed-back
 router.get('/api/feed-back/food/', feedBackController.getFoodFeedBacks);
 router.get('/api/feed-back/menu/', feedBackController.getMenuFeedBacks);
-router.get('/api/feed-back/trainer/', feedBackController.getTrainerFeedBacks);
 
 router.get(
   '/api/feed-back/food/:foodId',
@@ -100,9 +95,5 @@ router.get(
 router.get(
   '/api/feed-back/menu/:menuId',
   feedBackController.getMenuFeedBackListByMenuId,
-);
-router.get(
-  '/api/feed-back/trainer/:trainerId',
-  feedBackController.getTrainerFeedBackByTrainerId,
 );
 export default router;

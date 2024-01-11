@@ -208,43 +208,5 @@ export async function createMenuFeedback(req, res) {
     client.release();
   }
 }
-export async function createTrainerFeedback(req, res) {
-  const client = await pool.connect();
-  try {
-    await client.query('BEGIN');
-    const authHeader = req.headers.authorization;
-    if (!authHeader) {
-      return res.status(401).json({ message: 'No token provided' });
-    }
-    // Check if the header includes the Bearer scheme
-    const tokenParts = authHeader.split(' ');
-    if (tokenParts.length !== 2 || tokenParts[0] !== 'Bearer') {
-      return res.status(401).json({ message: 'Invalid token format' });
-    }
-    // Extract the token
-    const token = tokenParts[1];
-    let decodEd;
-    // Verify and decode the JWT token
-    jwt.verify(token, secret_key, (err, decoded) => {
-      if (err) {
-        return res.status(401).json({ message: 'Invalid token' });
-      } else decodEd = decoded;
-    });
-    const email = decodEd.email;
-    const trainerId = req.params.trainerId;
-    const feedBackDetails = req.body;
-    feedBackDetails.email = email;
-    await userService.createTrainerFeedback(trainerId, feedBackDetails, client);
-    res.status(200).send({ message: 'Feed back created successful ' });
-    await client.query('COMMIT');
-  } catch (err) {
-    await client.query('ROLLBACK');
-
-    console.log(err);
-    res.status(404).send({ message: err.message });
-  } finally {
-    client.release();
-  }
-}
 
 export default router;

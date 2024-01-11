@@ -19,6 +19,9 @@ export async function registerUserDetails(userDetails, client) {
   if (user) throw new Error('User email duplicated: ' + user.email);
   if (!userDetails.password) throw new Error('User password can not be empty');
   userDetails.user_id = uuidv4();
+  const USER_ROLE = await userDAL.getRoleUserForRegister(client);
+  console.log(USER_ROLE.rows[0]);
+  userDetails.role_id = USER_ROLE.rows[0].role_id;
   await userDAL.registerUserDetails(userDetails, client);
 }
 export async function updateUserByUserDetails(userId, userDetails, client) {
@@ -44,46 +47,6 @@ export async function createMenuFeedback(menuId, feedBackDetails, client) {
   feedBackDetails.user_id = result.user_id;
   feedBackDetails.menu_feedback_id = uuidv4();
   await userDAL.createMenuFeedback(menuId, feedBackDetails, client);
-}
-export async function createTrainerFeedback(
-  trainerId,
-  feedBackDetails,
-  client,
-) {
-  const [user] = await userDAL.getUserDetailsByEmail(feedBackDetails.email);
-  const [trainerById] = await userDAL.getTrainerDetails(trainerId);
-  const [result] = await userDAL.getUserDetailsByEmail(feedBackDetails.email);
-  if (!user) throw new Error('User email not found ');
-  if (!trainerById) throw new Error('Trainer not found ');
-  feedBackDetails.user_id = result.user_id;
-  feedBackDetails.trainer_feedback_id = uuidv4();
-  await userDAL.createTrainerFeedback(trainerId, feedBackDetails, client);
-}
-export async function createUserInfo(userDetail, client) {
-  const [user] = await userDAL.getUserDetailsByUserId(userDetail.user_id);
-  if (!user) throw new Error('User not found');
-  const bmi = calculateBMI(userDetail.height, userDetail.weight);
-  const age = calculateAge(user.birth_day);
-  userDetail.bmi = bmi;
-  userDetail.age = age;
-  userDetail.email = user.email;
-  userDetail.sex = user.sex;
-  const { minCalories, maxCalories } = calculateCalories(
-    userDetail.weight,
-    userDetail.height,
-    age,
-    userDetail.sex,
-    userDetail.activityLevel,
-  );
-  userDetail.minimum_calories = minCalories;
-  userDetail.maximum_calories = maxCalories;
-  const checkUserInfoBeforeCreate = await userDAL.getUserInfoById(
-    userDetail.user_id,
-  );
-  if (checkUserInfoBeforeCreate)
-    throw new Error('User info already exists, update only');
-  await userDAL.createUserInfo(userDetail, client);
-  return userDetail;
 }
 export async function updateUserAvatar(userId, imgPath, client) {
   const [user] = await userDAL.getUserDetailsByUserId(userId);

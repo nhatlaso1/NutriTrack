@@ -30,19 +30,6 @@ export async function getMenuFeedBacks(req, res) {
     res.status(404).send({ message: err.message });
   }
 }
-export async function getTrainerFeedBacks(req, res) {
-  try {
-    const feedBackList = await feedBackService.getTrainerFeedBacks();
-    if (feedBackList.length) {
-      res.send({ feedBackList });
-    } else
-      res.status(200).send({ message: 'no feed back found', feedBackList });
-  } catch (err) {
-    console.log(err);
-    res.status(404).send({ message: err.message });
-  }
-}
-//
 
 export async function getFoodFeedBackByFoodId(req, res) {
   try {
@@ -63,21 +50,6 @@ export async function getMenuFeedBackListByMenuId(req, res) {
     const menuId = req.params.menuId;
     const feedBackList = await feedBackService.getMenuFeedBackListByMenuId(
       menuId,
-    );
-    if (feedBackList.length) {
-      res.send({ feedBackList });
-    } else
-      res.status(200).send({ message: 'no feed back found', feedBackList });
-  } catch (err) {
-    console.log(err);
-    res.status(404).send({ message: err.message });
-  }
-}
-export async function getTrainerFeedBackByTrainerId(req, res) {
-  try {
-    const trainerId = req.params.trainerId;
-    const feedBackList = await feedBackService.getTrainerFeedBackByTrainerId(
-      trainerId,
     );
     if (feedBackList.length) {
       res.send({ feedBackList });
