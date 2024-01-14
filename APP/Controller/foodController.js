@@ -67,7 +67,7 @@ export async function updateFood(req, res) {
     const foodId = req.params.foodId;
     const foodDetails = req.body;
     foodDetails.food_id = foodId;
-    await foodService.updateFood(foodDetails);
+    await foodService.updateFood(foodDetails,client);
     res.send({ message: 'food updated successfully' });
     await client.query('COMMIT');
   } catch (err) {

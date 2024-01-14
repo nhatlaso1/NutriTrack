@@ -85,14 +85,13 @@ export function updateFoodAvatar(foodId, imgFilePath) {
 export function updateFood(foodDetails) {
   const text = `
   UPDATE public.food
-	SET  food_name=$2, category_id=$3, food_recipes=$4, food_photo=$5
+	SET  food_name=$2, category_id=$3, food_recipes=$4
 	WHERE food_id=$1;`;
   const values = [
     foodDetails.food_id,
     foodDetails.food_name,
     foodDetails.category_id,
-    foodDetails.food_recipes,
-    foodDetails.food_photo,
+    foodDetails.food_recipes
   ];
   const query = {
     text: text,
@@ -114,7 +113,7 @@ export function deleteFood(foodId) {
 
 export function getFoodCategory(categoryDescription) {
   const text = `
-  SELECT * FROM food f INNER JOIN categories c ON f.category_id = c.category_id WHERE description = $1`;
+  select * from categorie c where description = $1`;
   const values = [categoryDescription];
   const query = {
     text: text,

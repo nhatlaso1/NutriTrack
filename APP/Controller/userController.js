@@ -90,8 +90,8 @@ export async function loginUser(req, res) {
         expiresIn: '30d',
       });
       res.header('Authorization', `Bearer ${accessToken}`);
-
-      res.send({ userDetails, accessToken: `Bearer ${accessToken}` });
+      userDetails.accessToken = `Bearer ${accessToken}`
+      res.send(userDetails);
     } else res.status(401).send({ message: 'user not found' });
   } catch (err) {
     console.log(err);

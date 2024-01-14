@@ -12,13 +12,13 @@ export async function getIngredientDetails(ingredientId) {
 }
 
 export async function createNewIngredient(ingredientDetails, client) {
-  const [ingredient] = await ingredientDAL.getIngredientDetailsByName(
-    ingredientDetails.ingredient_name,
-  );
-  if (ingredient)
-    throw new Error(
-      'Ingredient name duplicated: ' + ingredientDetails.ingredient_name,
-    );
+  // const [ingredient] = await ingredientDAL.getIngredientDetailsByName(
+  //   ingredientDetails.ingredient_name,
+  // );
+  // if (ingredient)
+  //   throw new Error(
+  //     'Ingredient name duplicated: ' + ingredientDetails.ingredient_name,
+  //   );
   ingredientDetails.ingredient_id = uuidv4();
   await ingredientDAL.createNewIngredient(ingredientDetails, client);
 }

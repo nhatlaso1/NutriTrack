@@ -13,22 +13,23 @@ export async function getFoodDetails(foodId) {
 }
 
 export async function createFood(foodDetails, client) {
-  const [food] = await foodDAL.getFoodDetailsByName(foodDetails.food_name);
-  if (food) throw new Error('Food name duplicated: ' + foodDetails.food_name);
+  // const [food] = await foodDAL.getFoodDetailsByName(foodDetails.food_name);
+  // if (food) throw new Error('Food name duplicated: ' + foodDetails.food_name);
   foodDetails.food_id = uuidv4();
   const [foodCategory] = await foodDAL.getFoodCategory(
     foodDetails.food_category_name,
   );
-  foodDetails.food_category_id = foodCategory.food_category_id;
-  const ingredients = await getIngredientList();
-  const foodCategoryIds = ingredients
-    .filter((e) => foodDetails.food_ingredients.includes(e.ingredient_id))
-    .map((e) => e.ingredient_id);
 
-  if (foodCategoryIds.length)
-    for (const e of foodCategoryIds) {
-      await foodDAL.createFoodIngredient(foodDetails.food_id, e, client);
-    }
+  foodDetails.category_id = foodCategory.category_id;
+  // const ingredients = await getIngredientList();
+  // const foodCategoryIds = ingredients
+  //   .filter((e) => foodDetails.food_ingredients.includes(e.ingredient_id))
+  //   .map((e) => e.ingredient_id);
+
+  // if (foodCategoryIds.length)
+  //   for (const e of foodCategoryIds) {
+  //     await foodDAL.createFoodIngredient(foodDetails.food_id, e, client);
+  //   }
   await foodDAL.createFood(foodDetails, client);
 }
 export async function updateFoodAvatar(foodId, image, client) {
@@ -40,20 +41,20 @@ export async function updateFood(foodDetails, client) {
   const [foodCategory] = await foodDAL.getFoodCategory(
     foodDetails.food_category_name,
   );
-  foodDetails.food_category_id = foodCategory.food_category_id;
-  const [food] = await foodDAL.getFoodDetailsByName(foodDetails.food_name);
-  const [foodById] = await foodDAL.getFoodDetails(foodDetails.food_id);
-  if (food) throw new Error('Food name duplicated: ' + foodDetails.food_name);
-  if (!foodById) throw new Error('food id is not found ');
-  const ingredients = await getIngredientList();
-  const foodCategoryIds = ingredients
-    .filter((e) => foodDetails.food_ingredients.includes(e.ingredient_id))
-    .map((e) => e.ingredient_id);
+  foodDetails.category_id = foodCategory.category_id;
+  // const [food] = await foodDAL.getFoodDetailsByName(foodDetails.food_name);
+  // const [foodById] = await foodDAL.getFoodDetails(foodDetails.food_id);
+  // if (food) throw new Error('Food name duplicated: ' + foodDetails.food_name);
+  // if (!foodById) throw new Error('food id is not found ');
+  // const ingredients = await getIngredientList();
+  // const foodCategoryIds = ingredients
+  //   .filter((e) => foodDetails.food_ingredients.includes(e.ingredient_id))
+  //   .map((e) => e.ingredient_id);
 
-  if (foodCategoryIds.length)
-    for (const e of foodCategoryIds) {
-      await foodDAL.createFoodIngredient(foodDetails.food_id, e, client);
-    }
+  // if (foodCategoryIds.length)
+  //   for (const e of foodCategoryIds) {
+  //     await foodDAL.createFoodIngredient(foodDetails.food_id, e, client);
+  //   }
   await foodDAL.updateFood(foodDetails, client);
 }
 

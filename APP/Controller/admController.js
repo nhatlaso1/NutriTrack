@@ -20,7 +20,8 @@ export async function loginAdmin(req, res) {
         expiresIn: '30d',
       });
       res.header('Authorization', `Bearer ${accessToken}`);
-      res.send({ userDetails, accessToken: `Bearer ${accessToken}` });
+      userDetails.accessToken = `Bearer ${accessToken}`
+      res.send(userDetails);
     } else {
       res.status(400).send({ message: 'Admin not found' });
     }
