@@ -91,7 +91,7 @@ export function updateFood(foodDetails) {
     foodDetails.food_id,
     foodDetails.food_name,
     foodDetails.category_id,
-    foodDetails.food_recipes
+    foodDetails.food_recipes,
   ];
   const query = {
     text: text,

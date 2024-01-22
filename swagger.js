@@ -6,7 +6,16 @@ const options = {
       version: '1.0.0',
       description: 'This is a swagger API',
     },
-    servers: [{ url: 'http://localhost:3500', description: 'This is the local development environment' }],
+    servers: [
+      {
+        url: 'http://localhost:3500',
+        description: 'This is the local development environment',
+      },
+      {
+        url: 'https://nutri-track-fu-capstone-be-com.onrender.com/',
+        description: 'This is the local development environment',
+      },
+    ],
     components: {
       securitySchemes: {
         BearerAuth: {
@@ -20,8 +29,8 @@ const options = {
   apis: ['./allRouter.js'],
   security: [
     {
-      BearerAuth: [], 
+      BearerAuth: [],
     },
-  ]
+  ],
 };
 export default options;
