@@ -39,10 +39,10 @@ const router = express.Router();
  *              properties:
  *                email:
  *                  type: string
- *                  default: "nhatminh00789@gmail.com"  
+ *                  default: "nhatminh00789@gmail.com"
  *                password:
  *                  type: string
- *                  default: "pass"  
+ *                  default: "pass"
  *      responses:
  *        "200":
  *          description: The detail of admin after login
@@ -77,7 +77,7 @@ const router = express.Router();
  *      tags:
  *        - Admin section
  *      security:
- *        - BearerAuth: [Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5oYXRtaW5oMDA3ODlAZ21haWwuY29tIiwiaWF0IjoxNzA1MjE2MjkyLCJleHAiOjE3MDc4MDgyOTJ9.Mb1DfsqKEw9eZ69k_EWBn_IQObNdtK-TtfFNMa4IP4w] 
+ *        - BearerAuth: [Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5oYXRtaW5oMDA3ODlAZ21haWwuY29tIiwiaWF0IjoxNzA1MjE2MjkyLCJleHAiOjE3MDc4MDgyOTJ9.Mb1DfsqKEw9eZ69k_EWBn_IQObNdtK-TtfFNMa4IP4w]
  *      responses:
  *        "200":
  *          description: List of users retrieved successfully
@@ -85,7 +85,7 @@ const router = express.Router();
  *            application/json:
  *              schema:
  *                type: array
- *                    
+ *
  *        "404":
  *          description: No users found
  *          content:
@@ -106,7 +106,7 @@ const router = express.Router();
  *      tags:
  *        - Admin section
  *      security:
- *        - BearerAuth: []  
+ *        - BearerAuth: []
  *      requestBody:
  *        required: true
  *        content:
@@ -151,7 +151,7 @@ const router = express.Router();
  *      tags:
  *        - Admin section
  *      security:
- *        - BearerAuth: []  
+ *        - BearerAuth: []
  *      requestBody:
  *        required: true
  *        content:
@@ -198,7 +198,7 @@ const router = express.Router();
  *      tags:
  *        - Admin section
  *      security:
- *        - BearerAuth: [] 
+ *        - BearerAuth: []
  *      parameters:
  *        - name: userId
  *          in: path
@@ -289,7 +289,7 @@ router.delete('/api/admin/:userId', admController.deleteUser);
  *      tags:
  *        - User section
  *      security:
- *        - BearerAuth: []  
+ *        - BearerAuth: []
  *      parameters:
  *        - name: userId
  *          in: path
@@ -405,7 +405,7 @@ router.delete('/api/admin/:userId', admController.deleteUser);
  *      tags:
  *        - User section
  *      security:
- *        - BearerAuth: []  
+ *        - BearerAuth: []
  *      parameters:
  *        - name: userId
  *          in: path
@@ -525,7 +525,7 @@ router.post(
  *      tags:
  *        - Ingredient section
  *      security:
- *        - BearerAuth: []  
+ *        - BearerAuth: []
  *      requestBody:
  *        required: true
  *        content:
@@ -573,7 +573,7 @@ router.post(
  *      tags:
  *        - Ingredient section
  *      security:
- *        - BearerAuth: [] 
+ *        - BearerAuth: []
  *      parameters:
  *        - name: ingredientId
  *          in: path
@@ -825,7 +825,37 @@ router.put(
  *                    type: string
  *                    example: "Food not found"
  */
+/**
+ * @swagger
+ *  /api/food/search:
+ *  get:
+ *    summary: "Get all food items by food name"
+ *    tags:
+ *      - Food section
+ *    description: "Retrieve a list of food items based on the provided food name."
+ *    produces:
+ *      - application/json
+ *    parameters:
+ *      - name: foodName
+ *        in: query
+ *        description: "The name of the food to search for."
+ *        required: true
+ *        type: string
+ *    responses:
+ *      200:
+ *        description: "Successful response"
+ *        schema:
+ *          type: array
+ *          items:
+ *            $ref: "#/definitions/FoodItem"
+ *      404:
+ *        description: "No food items found"
+ *      500:
+ *        description: "Internal Server Error"
+ */
+
 router.get('/api/food', foodController.getFoodList);
+router.get('/api/food/search', foodController.getAllFoodByFoodName);
 router.post('/api/food', foodController.createFood);
 router.get('/api/food/:foodId', foodController.getFoodDetails);
 router.put('/api/food/:foodId', foodController.updateFood);

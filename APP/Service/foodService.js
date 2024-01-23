@@ -1,8 +1,12 @@
 import * as foodDAL from '../DAL/foodDAL.js';
 import { v4 as uuidv4 } from 'uuid';
-import { getIngredientList } from '../DAL/ingredientDAL.js';
 export async function getFoodList() {
   const result = await foodDAL.getFoodList();
+  return result;
+}
+
+export async function getAllFoodByFoodName(foodName) {
+  const result = await foodDAL.getAllFoodByFoodName(foodName);
   return result;
 }
 

@@ -5,6 +5,11 @@ export async function getFoodList() {
   const foodList = await pool.query(getFoodListQuery);
   return foodList.rows;
 }
+export async function getAllFoodByFoodName(foodName) {
+  const getAllFoodByFoodNameQuery = foodSQL.getAllFoodByFoodName(foodName);
+  const foodList = await pool.query(getAllFoodByFoodNameQuery);
+  return foodList.rows;
+}
 
 export async function getFoodDetails(foodId) {
   const getFoodDetailsQuery = foodSQL.getFoodDetails(foodId);

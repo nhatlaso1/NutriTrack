@@ -12,6 +12,16 @@ export async function getFoodList(req, res) {
     res.status(404);
   }
 }
+export async function getAllFoodByFoodName(req, res) {
+  try {
+    const foodName = req.query.foodName;
+    const result = await foodService.getAllFoodByFoodName(foodName);
+    res.send(result);
+  } catch (err) {
+    console.log(err);
+    res.status(404);
+  }
+}
 
 export async function getFoodDetails(req, res) {
   try {
@@ -67,7 +77,7 @@ export async function updateFood(req, res) {
     const foodId = req.params.foodId;
     const foodDetails = req.body;
     foodDetails.food_id = foodId;
-    await foodService.updateFood(foodDetails,client);
+    await foodService.updateFood(foodDetails, client);
     res.send({ message: 'food updated successfully' });
     await client.query('COMMIT');
   } catch (err) {

@@ -9,6 +9,18 @@ export function getFoodList() {
   };
   return query;
 }
+export function getAllFoodByFoodName(foodName) {
+  const text = `
+    SELECT *
+	FROM public.food
+  WHERE food_name ILIKE '%' || $1 || '%'`;
+  const values = [foodName];
+  const query = {
+    text: text,
+    values: values,
+  };
+  return query;
+}
 
 export function getFoodDetails(foodId) {
   const text = `
